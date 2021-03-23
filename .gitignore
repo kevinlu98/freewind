@@ -1,0 +1,10 @@
+.idea/
+*.iml
+.DS_Store
+*.swp
+*.swo
+*.log
+logs/
+.project
+.factoid.log
+.factoid.log.*

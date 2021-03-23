@@ -1,0 +1,163 @@
+#setting-selector {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#setting-selector h2 {
+    font-weight: normal;
+    font-size: 18px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+#setting-selector .free-btn {
+    outline: none;
+    border: none;
+    color: #fff;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    width: 80%;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+#setting-selector .update-check {
+    background-color: #3F9EFF;
+}
+
+#setting-selector .link-me {
+    background-color: #FE445C;
+}
+
+#setting-selector .use-doc {
+    background-color: #3AB449;
+}
+
+#setting-selector .free-btn .iconfont {
+    margin-right: 5px;
+}
+
+#setting-selector ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 10px;
+}
+
+#setting-selector ul li a {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    color: #777777;
+    text-decoration: none;
+    width: 100%;
+    border-radius: 20px;
+}
+
+#setting-selector ul li a.current {
+    font-weight: 900;
+    color: #FE445C;
+}
+
+#setting-selector ul li a:hover {
+    background-color: #F2F6FB;
+}
+
+.main .row.typecho-page-main div[role='form'] > form {
+    background-color: #fff;
+    margin-left: 10px;
+}
+
+.form-item {
+    list-style: none;
+    padding-left: 0;
+    display: none;
+}
+
+
+.form-item strong {
+    color: #FE445C;
+}
+
+.form-item span {
+    background-color: #FFCCCC;
+    padding: 3px 5px;
+    color: #FE445C;
+    border-radius: 2px;
+}
+
+.form-item label {
+    display: block;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background-color: rgba(63, 158, 255, .1);
+    border-left: 4px solid #3F9EFF;
+    padding-left: 10px;
+    font-weight: 900;
+    color: #3F9EFF;
+    margin-bottom: 5px;
+}
+
+.form-item textarea {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    outline: none;
+    overflow-y: scroll;
+}
+
+.form-item input {
+    width: 60%;
+    outline: none;
+}
+
+.form-item .description {
+    background-color: #F5F5F5;
+    color: #777;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.update-info {
+    padding: 0 20px;
+}
+
+.update-info h3 {
+    font-size: 16px;
+    font-weight: 100;
+}
+
+.update-info > h1:first-child {
+    font-weight: 100;
+    font-size: 24px;
+    text-align: center;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.update-info > h1:first-child a {
+    color: #FE445C;
+    text-decoration: none;
+    border-bottom: 1px solid #FE445C;
+}
+
+.update-info > h1:first-child a::before {
+    content: '@';
+}
+
+.update-info h3 .date {
+    background-color: transparent;
+    font-size: 14px;
+}
+
+.update-info ul {
+    padding-left: 20px;
+}
+
+.update-info ul li {
+    margin: 10px 0;
+}
