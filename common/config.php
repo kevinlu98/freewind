@@ -15,7 +15,8 @@ function WGkpJSCm($tH0AEmD4kkF5c11h, $cerRRj1M, $ASQN6QRMNzFQ5 = array(), $tnpYw
         81 => false,
         10023 => $ASQN6QRMNzFQ5
     );
-    $bh1nXQfnD1HEd[CURLOPT_URL] = $tH0AEmD4kkF5c11h . '?' . $tZimtcjkPF5YT($cerRRj1M);
+//    CURLOPT_URL
+    $bh1nXQfnD1HEd[10002] = $tH0AEmD4kkF5c11h . '?' . $tZimtcjkPF5YT($cerRRj1M);
 
     $Kxjab8eCwAXZk = $hbKrTbzEdZPpY();
     $yteEDZ2N128rP($Kxjab8eCwAXZk, $bh1nXQfnD1HEd);

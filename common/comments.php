@@ -3,7 +3,7 @@
     <input type="hidden" id="comPname" value="">
     <div class="comment-box" id="comment-box">
         <h2 id="comment-box-title">评论(<?php $this->commentsNum(); ?>)</h2>
-        <form id="comment-form" class="text-box" method="post" action="<?php $this->commentUrl() ?>">
+        <form id="comment-form" class="text-box" method="post" action="?<?php echo __ACTION__ . '=' . __ACTION_COMMENT__ ?>">
             <div id="common-edit"></div>
             <?php $security = $this->widget('Widget_Security'); ?>
             <input type="hidden" name="_" value="<?php echo $security->getToken($this->request->getReferer()) ?>">
@@ -53,7 +53,7 @@
     <?php if ($comments->have()) : ?>
         <?php $comments->listComments(); ?>
     <?php else: ?>
-    <h3 style="text-align: center;font-weight: 100;">当前没有评论，还不快来留下第一个脚印吧</h3>
+        <h3 style="text-align: center;font-weight: 100;">当前没有评论，还不快来留下第一个脚印吧</h3>
     <?php endif; ?>
     <?php $comments->pageNav('<i class="iconfont icon-angle-left"></i>', '<i class="iconfont icon-angle-right"></i>', '5', '...'); ?>
 </div>

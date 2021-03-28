@@ -125,7 +125,7 @@
 <?php if ($this->is('post') || $this->is('page')): ?>
     <script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/1.7.1/clipboard.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+    <script src="<?php $this->options->themeUrl('static/plugin/wangEdit/wangEditor.min.js') ?>"></script>
     <script src="<?php $this->options->themeUrl('static/plugin/prism/prism.js') ?>"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-validate/1.9.0/jquery.validate.min.js"></script>
 <?php endif ?>

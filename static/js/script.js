@@ -176,46 +176,10 @@ $(function () {
         return pattern.test(value);
     })
     $.validator.addMethod("pwdCheck", function (value, element, param) {
-        let pattern = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{6,20}$/
+        let pattern = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{6,18}$/
         return pattern.test(value);
     })
 
-    $.validator.addMethod("codeCheck", function (value, element, param) {
-        let success = false;
-        $.ajax({
-            url: '?imgcode=' + value,
-            dataType: 'json',
-            async: false,
-            success: res => {
-                success = res.success
-            }
-        })
-        return success;
-    })
-    $.validator.addMethod("nameExists", function (value, element, param) {
-        let success = false;
-        $.ajax({
-            url: '?checkName=' + value,
-            dataType: 'json',
-            async: false,
-            success: res => {
-                success = res.success
-            }
-        })
-        return success;
-    })
-    $.validator.addMethod("mailExists", function (value, element, param) {
-        let success = false;
-        $.ajax({
-            url: '?checkMail=' + value,
-            dataType: 'json',
-            async: false,
-            success: res => {
-                success = res.success
-            }
-        })
-        return success;
-    })
 
     function validRegister() {
         return $("#register-form").validate({
@@ -223,7 +187,6 @@ $(function () {
                 name: {
                     required: true,
                     usernameCheck: true,
-                    nameExists: true
                 },
                 screenName: {
                     required: true,
@@ -231,25 +194,22 @@ $(function () {
                 mail: {
                     required: true,
                     email: true,
-                    mailExists: true
                 },
                 password: {
                     required: true,
                     pwdCheck: true
                 },
-                repwd: {
+                confirm: {
                     equalTo: "#password"
                 },
                 imgcode: {
                     required: true,
-                    codeCheck: true
                 }
             },
             messages: {
                 name: {
                     required: "用户名不能为空",
                     usernameCheck: "用户名长度必须为6-32之间只包含字母数字下划线且必须字母开头",
-                    nameExists: '用户名已存在'
                 },
                 screenName: {
                     required: "昵称不能为空"
@@ -257,7 +217,6 @@ $(function () {
                 mail: {
                     required: "电子邮箱不能为空",
                     email: "必须输入正确格式的电子邮件",
-                    mailExists: '邮箱已被注册'
                 },
                 password: {
                     required: "密码不能为空",
@@ -268,7 +227,6 @@ $(function () {
                 },
                 imgcode: {
                     required: "验证码不能为空",
-                    codeCheck: "验证码输入有误"
                 }
             }
         })
@@ -276,7 +234,7 @@ $(function () {
 
     $(validRegister());
     $("#code-img").on('click', function () {
-        $(this).attr('src', themeUrl + 'utils/verfiy.php?time=' + new Date().getTime())
+        $(this).attr('src', '/?freeAction=getcode&time' + new Date().getTime())
     })
 
 
@@ -522,16 +480,23 @@ $(function () {
                 url: url,
                 type: "POST",
                 data: data,
+                dataType: 'json',
                 success: res => {
-                    if (res.indexOf('>强烈建议更改你的默认密码</a></li>') !== -1) {
-                        layer.close(loadIndex)
-                        layer.msg('注册成功', {icon: 1}, function () {
-                            location.reload()
-                        })
-                    } else {
-                        layer.close(loadIndex)
-                        layer.msg('注册失败', {icon: 2})
-                    }
+                    layer.close(loadIndex)
+                    layer.msg(res.msg, {icon: res.success ? 1 : 2}, function () {
+                        if (!res.success) {
+                            $("#code-img").attr('src', '/?freeAction=getcode&time' + new Date().getTime())
+                        }
+                    })
+                    // if (res.indexOf('>强烈建议更改你的默认密码</a></li>') !== -1) {
+                    //     layer.close(loadIndex)
+                    //     layer.msg('注册成功', {icon: 1}, function () {
+                    //         location.reload()
+                    //     })
+                    // } else {
+                    //     layer.close(loadIndex)
+                    //     layer.msg('注册失败', {icon: 2})
+                    // }
                 },
                 error: res => {
                     layer.close(loadIndex)
@@ -552,16 +517,14 @@ $(function () {
             url: url,
             type: "POST",
             data: data,
+            dataType: 'json',
             success: res => {
-                if (res.indexOf('// 导航菜单 tab 聚焦时展开下拉菜单') !== -1) {
-                    layer.close(loadIndex)
-                    layer.msg('登录成功', {icon: 1}, function () {
-                        location.reload()
-                    })
-                } else {
-                    layer.close(loadIndex)
-                    layer.msg('用户名或密码错误', {icon: 2})
-                }
+                layer.close(loadIndex)
+                layer.msg(res.msg, {icon: res.success ? 1 : 2}, function () {
+                    if (res.success) {
+                        location.reload();
+                    }
+                })
             },
             error: res => {
                 layer.close(loadIndex)
@@ -584,10 +547,9 @@ $(function () {
     $('.post-suport').on('click', function () {
         let cid = $(this).data('cid');
         $.ajax({
-            url: `?freewind=${new Date().getTime()}`,
+            url: `/?freeAction=suport`,
             type: 'POST',
             data: {
-                suport: true,
                 cid: cid
             },
             dataType: 'json',

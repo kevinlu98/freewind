@@ -99,9 +99,26 @@
         </div>
         <div class="neighbor">
             <?php $this->thePrev('%s', '<a class="fr" href="javascript:void(0)">没有了...</a>', ['title' => "下一篇", 'tagClass' => "fr"]); ?>
+            <a id="reword-btn" href="javascript:void (0)" class="btn zan-btn"><i class="iconfont icon-Dollar"></i>
+                赞赏</a>
             <?php $this->theNext('%s', '<a class="fl" href="javascript:void(0)">没有了...</a>', ['title' => "上一篇", 'tagClass' => "fl"]); ?>
         </div>
         <?php $this->need('common/comments.php'); ?>
     </div>
 <?php endif; ?>
 <?php $this->need('common/footer.php'); ?>
+<script>
+    $(function () {
+        $("#reword-btn").on('click', function () {
+            //页面层
+
+            layer.open({
+                type: 1,
+                title: '打赏作者',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['290px', '400px'], //宽高
+                content: `<p style="text-align:center;margin:10px;">支付宝扫一扫</p><img style="width: 256px;height: 256px;margin: 10px;" src="<?php echo $this->options->freeReward ?>">`
+            });
+        })
+    })
+</script>

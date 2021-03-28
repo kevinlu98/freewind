@@ -40,7 +40,7 @@ $this->need('common/header.php');
                 <div class="blog-item">
                     <div class="shuo-title pos-rlt">
                         <div class="shuo-avatar pos-abs">
-                            <?php echo $shuo->author->gravatar(32); ?>
+                            <?php echo $shuo->author->gravatar(50); ?>
                         </div>
                         <div class="shuo-info">
                             <p class="author-name"><?php echo $shuo->title(); ?></p>
@@ -54,6 +54,14 @@ $this->need('common/header.php');
                         <i class="iconfont icon-eye"> <?php get_post_view($shuo) ?></i>
                         <i class="iconfont icon-comment1"> <a
                                     href="<?php $shuo->permalink() ?>"><?php echo $shuo->commentsNum ?> 回复</a> </i>
+                        <?php $suport = get_post_support($shuo->cid) ?>
+                        <i class="iconfont <?php echo $suport['icon'] ?>">
+                            <a class="post-suport"
+                               data-cid="<?php echo $shuo->cid ?>"
+                               href="javascript:void (0)">
+                                <?php echo '('.$suport['count'] .')'. $suport['text'] ?>
+                            </a>
+                        </i>
                     </p>
                 </div>
                 <?php $comments = get_comment_by_cid($shuo->cid) ?>
@@ -66,7 +74,7 @@ $this->need('common/header.php');
                                         <?php if ($comment['authorId'] == $comment['ownerId']): ?>
                                             <?php echo $shuo->author->gravatar(32); ?>
                                         <?php else: ?>
-                                            <img src="<?php  get_avatar($comment['mail']) ?>" alt="">
+                                            <img src="<?php get_avatar($comment['mail']) ?>" alt="">
                                         <?php endif; ?>
                                     </div>
                                     <div class="comment-body">

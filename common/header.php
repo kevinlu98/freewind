@@ -1,73 +1,4 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
-<?php
-if ($_GET['imgcode']) {
-    session_start();
-    $code = strtolower($_SESSION["freewind_code"]);
-    $user_code = strtolower($_GET['imgcode']);
-    if ($code == $user_code) {
-        $res = [
-            'success' => true
-        ];
-    } else {
-        $res = [
-            'success' => false
-        ];
-    }
-    ob_clean();
-    echo json_encode($res);
-    exit();
-}
-
-if ($_GET['checkName']) {
-    $res = checkUserExist('name', $_GET['checkName']);
-    if ($res['count'] == '0') {
-        $res = [
-            'success' => true
-        ];
-    } else {
-        $res = [
-            'success' => false
-        ];
-    }
-    ob_clean();
-    echo json_encode($res);
-    exit();
-}
-
-if ($_GET['checkMail']) {
-    $res = checkUserExist('mail', $_GET['checkMail']);
-    if ($res['count'] == '0') {
-        $res = [
-            'success' => true
-        ];
-    } else {
-        $res = [
-            'success' => false
-        ];
-    }
-    ob_clean();
-    echo json_encode($res);
-    exit();
-}
-if ($_GET['freewind'] && $_POST['suport'] && $_POST['cid']) {
-    ob_clean();
-    $cid = $_POST['cid'];
-    $res = support_add($cid);
-    $json = [];
-    if ($res) {
-        $json = [
-            'success' => true,
-            'count' => $res
-        ];
-    } else {
-        $json = [
-            'success' => false,
-        ];
-    }
-    echo json_encode($json);
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,7 +19,7 @@ if ($_GET['freewind'] && $_POST['suport'] && $_POST['cid']) {
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- 自由之风主题专属字体图标CDN -->
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_2416373_u3s6djqhdnn.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_2416373_m6pi309wu0o.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.css">
     <link rel="stylesheet" href="<?php $this->options->themeUrl('static/css/style.css'); ?>">
     <?php if ($this->is('post') || $this->is('page')): ?>
@@ -118,7 +49,7 @@ if ($_GET['freewind'] && $_POST['suport'] && $_POST['cid']) {
             <ul class="top-list fl hide-md pos-rlt">
                 <li>
                     <a href="javascript:void (0);" id="app-statistic">
-                        <i class="iconfont icon-clock"></i>
+                        <i class="iconfont icon-tradingvolume"></i>
                         <i class="iconfont icon-down"></i>
                     </a>
                 </li>
@@ -328,11 +259,13 @@ if ($_GET['freewind'] && $_POST['suport'] && $_POST['cid']) {
                     <?php if ($this->user->hasLogin()): ?>
                         <ul class="user-center">
                             <li><a href="/admin">个人中心</a></li>
-                            <li><a href="/action/logout">退出登录</a></li>
+                            <li><a href="<?php $this->options->logoutUrl(); ?>">退出登录</a></li>
                         </ul>
                     <?php else: ?>
                         <div id="login-div">
-                            <form id="login-form" action="<?php $this->options->loginAction(); ?>" method="post"
+                            <form id="login-form"
+                                  action="<?php echo $this->options->siteUrl . '?' . __ACTION__ . '=' . __ACTION_LOGIN__ ?>"
+                                  method="post"
                                   name="login" role="form">
                                 <div class="input-item pos-rlt">
                                     <input type="text" name="name" placeholder="请输入用户名">
@@ -349,7 +282,9 @@ if ($_GET['freewind'] && $_POST['suport'] && $_POST['cid']) {
                             </form>
                         </div>
                         <div id="register-div" style="display: none">
-                            <form id="register-form" action="<?php $this->options->registerAction(); ?>" method="post"
+                            <form id="register-form"
+                                  action="<?php echo $this->options->siteUrl . '?' . __ACTION__ . '=' . __ACTION_REGISTER__ ?>"
+                                  method="post"
                                   name="register" role="form">
                                 <?php if ($this->options->allowRegister): ?>
                                     <div class="input-item pos-rlt">
@@ -376,7 +311,8 @@ if ($_GET['freewind'] && $_POST['suport'] && $_POST['cid']) {
                                         <input type="text" name="imgcode" placeholder="验证码">
                                         <i class="iconfont icon-success pos-abs"></i>
                                         <img class="code pos-abs" id="code-img"
-                                             src="<?php $this->options->themeUrl('utils/verfiy.php'); ?>" alt="">
+                                             src="<?php echo $this->options->siteUrl . '?' . __ACTION__ . '=' . __ACTION_GETCODE__; ?>"
+                                             alt="">
                                     </div>
                                 <?php else: ?>
                                     <h3 style="font-weight: 100;font-size: 18px;text-align: center">该站点关闭了注册功能</h3>

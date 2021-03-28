@@ -1117,6 +1117,32 @@ body {
     background-color: #FDBC40;
 }
 
+.file-not-view {
+    margin: 20px;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.file-not-view p {
+    border: 1px dashed #FD8179;
+    color: #FD8179;
+    height: 50px;
+    line-height: 50px;
+    margin: 0;
+
+}
+
+.file-not-view p text {
+    dominant-baseline: middle; /* 文本垂直居中 */
+}
+
+.file-not-view p svg {
+    height: 20px;
+    width: 20px;
+    margin-top: 10px;
+}
+
 #write .mac-bar i:nth-child(3) {
     background-color: #35CD4B;
 }
@@ -1300,7 +1326,39 @@ body {
 
 .blog-content .neighbor {
     padding: 0 20px;
-    margin-bottom: 60px;
+    height: 60px;
+    text-align: center;
+}
+
+.blog-content .neighbor .btn {
+    border-radius: 0;
+    padding: 0;
+    height: 30px;
+    line-height: 30px;
+    width: 80px;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.blog-content .neighbor .btn .iconfont {
+    margin-right: 5px;
+}
+
+
+.blog-content .neighbor .btn.reword-btn .iconfont {
+    font-size: 16px;
+}
+
+.blog-content .neighbor .btn.reword-btn {
+    background-color: #3AB449;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.blog-content .neighbor .btn.zan-btn {
+    background-color: #F05050;
+    text-align: left;
+    padding-left: 10px;
 }
 
 .blog-content .neighbor a {
@@ -1829,6 +1887,7 @@ body {
     .hide-lg {
         display: none !important;
     }
+
     .page-link .link-item {
         width: 32%;
     }
@@ -1867,6 +1926,7 @@ body {
     .hide-lg {
         display: none !important;
     }
+
     .page-link .link-item {
         width: 48%;
     }
@@ -1909,6 +1969,7 @@ body {
         margin-right: 2px;
         height: 150px;
     }
+
     .page-link .link-item {
         width: 48%;
     }
@@ -1952,6 +2013,7 @@ body {
         margin-right: 2px;
         height: 150px;
     }
+
     .page-link .link-item {
         width: 48%;
     }

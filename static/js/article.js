@@ -27,8 +27,6 @@ $(function () {
     let showPos = offsetTop + 90;
 
 
-
-
     let commentSubmit = function () {
         if (!comText.val()) {
             layer.msg("请输入评论内容", {icon: 2})
@@ -61,18 +59,14 @@ $(function () {
             url: url,
             type: method,
             data: data,
-            success: (res, status, xhr) => {
+            dataType: 'json',
+            success: res => {
                 layer.close(loadIndex)
-                let reg = /<pre><code><h1>(.*?)<\/h1>exception/
-                let matcher = reg.exec(res);
-                if (matcher) {
-                    layer.msg(matcher[1], {icon: 2})
-                } else {
-                    layer.msg("评论成功", {icon: 1}, function () {
+                layer.msg(res.msg, {icon: res.success ? 1 : 2}, function () {
+                    if (res.success) {
                         location.reload();
-                    })
-                }
-
+                    }
+                })
             },
             error: res => {
                 layer.close(loadIndex)
@@ -155,9 +149,13 @@ $(function () {
             let scrollHieght = $(document).scrollTop();
             let windownHeight = $(window).height();
             let h = windownHeight - (offsetTop - scrollHieght);
+            let tagEle = $(".tag-cloud");
+            let tagBottom = tagEle.offset().top + tagEle.height();
+            // console.log("tag" + tagBottom);
+            // console.log("scrollHieght" + scrollHieght);
             let rightBar = $("#app-content #app-main");
             let loginRight = bodyWidth - rightBar.offset().left - rightBar.outerWidth();
-            if (h > showPos) {
+            if (h > showPos && scrollHieght > tagBottom) {
                 topEle.css({position: 'fixed', top: headHight, right: loginRight})
             } else {
                 topEle.css({position: 'relative', top: 0, right: 0})
@@ -177,11 +175,6 @@ $(function () {
     })
 
 
-
-
-
-
-
     tocbot.init({
         tocSelector: '#blog-tree',
         contentSelector: '#write',
@@ -190,6 +183,7 @@ $(function () {
     });
 
     const editor = initEdit()
+    console.log(editor);
 
 
     $(".comments-list .comm-title .replay-btn").on('click', function () {
@@ -237,7 +231,6 @@ $(function () {
         })
         const E = window.wangEditor
         const editor = new E("#common-edit")
-        console.log(editor.config);
         editor.config.height = 150
         editor.config.placeholder = '你的评论一针见血'
         editor.config.menus = [
@@ -280,8 +273,6 @@ $(function () {
     // })
 
     $("#comment-form").submit(commentSubmit)
-
-
 
 
 })

@@ -48,7 +48,7 @@ $(function () {
         editor.config.uploadImgMaxSize = 2 * 1024 * 1024 // 2M
         editor.config.uploadImgMaxLength = 1
         editor.config.uploadFileName = 'file'
-        editor.config.uploadImgServer = themeUrl + 'utils/upload.php'
+        editor.config.uploadImgServer = '/?freeAction=upload'
         editor.config.showLinkImgAlt = false
         editor.config.showLinkImgHref = false
         editor.config.uploadImgHooks = {
@@ -56,7 +56,7 @@ $(function () {
                 console.log(result);
                 if (!editor.txt.html().endsWith('br>'))
                     editor.txt.html(editor.txt.html() + '<br>')
-                insertImgFn(themeUrl + result.data[0].url)
+                insertImgFn('/' + result.data[0].url)
             }
         }
         editor.config.onchange = function (html) {
